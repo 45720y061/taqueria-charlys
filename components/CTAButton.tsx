@@ -1,29 +1,25 @@
-import Link from "next/link";
-
-type CTAButtonProps = {
+type Props = {
   href: string;
   label: string;
   variant?: "primary" | "secondary";
 };
 
-/**
- * Reusable call‑to‑action button component.
- */
 export default function CTAButton({
   href,
   label,
-  variant = "primary"
-}: CTAButtonProps) {
-  const baseClasses =
-    "inline-block px-6 py-3 rounded-md font-semibold transition-colors duration-200";
-  const variantClasses =
+  variant = "primary",
+}: Props) {
+  const base =
+    "px-6 py-3 rounded-md font-medium transition-colors";
+
+  const styles =
     variant === "primary"
-      ? "bg-primary text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-secondary"
-      : "border-2 border-primary text-primary hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-secondary";
+      ? "bg-orange-500 text-white hover:bg-orange-600"
+      : "border border-orange-500 text-orange-500 hover:bg-orange-50";
 
   return (
-    <Link href={href} className={`${baseClasses} ${variantClasses}`}>
+    <a href={href} className={`${base} ${styles}`}>
       {label}
-    </Link>
+    </a>
   );
 }
