@@ -1,29 +1,48 @@
-"use client";
+import type { ReactNode } from "react";
+import "./globals.css";
+import Providers from "./providers";
 
-import { createContext, useContext, useState } from "react";
+export const metadata = {
+  title: "Taqueria Charly’s | Best Birria & Tacos in Santa Maria",
+  description:
+    "Authentic Mexican street tacos, birria and barbacoa in Santa Maria, CA. Order online for pickup or delivery.",
+};
 
-type Lang = "en" | "es";
-
-const LanguageContext = createContext<{
-  lang: Lang;
-  toggle: () => void;
-}>({
-  lang: "en",
-  toggle: () => {},
-});
-
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>("en");
-
-  const toggle = () => {
-    setLang((prev) => (prev === "en" ? "es" : "en"));
-  };
-
+export default function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
-    <LanguageContext.Provider value={{ lang, toggle }}>
-      {children}
-    </LanguageContext.Provider>
+    <html lang="en">
+      <body className="antialiased">
+        <Providers>
+          {children}
+
+          {/* 📍 Local Business Schema for SEO */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Restaurant",
+                name: "Taqueria Charly’s",
+                servesCuisine: "Mexican",
+                priceRange: "$",
+                address: {
+                  "@type": "PostalAddress",
+                  addressLocality: "Santa Maria",
+                  addressRegion: "CA",
+                  addressCountry: "US",
+                },
+                sameAs: [
+                  "https://www.doordash.com/en/business/charly-taqueria-785131",
+                ],
+              }),
+            }}
+          />
+        </Providers>
+      </body>
+    </html>
   );
 }
-
-export const useLanguage = () => useContext(LanguageContext);

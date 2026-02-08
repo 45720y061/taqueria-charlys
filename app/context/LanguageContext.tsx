@@ -2,28 +2,39 @@
 
 import { createContext, useContext, useState } from "react";
 
-type Lang = "en" | "es";
+type Language = "en" | "es";
 
-const LanguageContext = createContext<{
-  lang: Lang;
-  toggle: () => void;
-}>({
-  lang: "en",
-  toggle: () => {},
-});
+type LanguageContextType = {
+  lang: Language;
+  toggleLanguage: () => void;
+};
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>("en");
+const LanguageContext = createContext<LanguageContextType | undefined>(
+  undefined
+);
 
-  const toggle = () => {
+export function LanguageProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [lang, setLang] = useState<Language>("en");
+
+  const toggleLanguage = () => {
     setLang((prev) => (prev === "en" ? "es" : "en"));
   };
 
   return (
-    <LanguageContext.Provider value={{ lang, toggle }}>
+    <LanguageContext.Provider value={{ lang, toggleLanguage }}>
       {children}
     </LanguageContext.Provider>
   );
 }
 
-export const useLanguage = () => useContext(LanguageContext);
+export function useLanguage() {
+  const context = useContext(LanguageContext);
+  if (!context) {
+    throw new Error("useLanguage must be used within a LanguageProvider");
+  }
+  return context;
+}
