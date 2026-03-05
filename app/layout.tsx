@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import "./globals.css";
 import Providers from "./providers";
+import { SITE } from "./lib/site";
 
 export const metadata = {
   title: "Taqueria Charly’s | Best Birria & Tacos in Santa Maria",
@@ -13,35 +14,37 @@ export default function RootLayout({
 }: {
   children: ReactNode;
 }) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    name: SITE.name,
+    url: SITE.url,
+    servesCuisine: "Mexican",
+    priceRange: "$",
+    telephone: SITE.phoneE164,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Santa Maria",
+      addressRegion: "CA",
+      addressCountry: "US",
+      ...(SITE.addressLine1 ? { streetAddress: SITE.addressLine1 } : {}),
+      ...(SITE.postalCode ? { postalCode: SITE.postalCode } : {}),
+    },
+    ...(SITE.sameAs?.length ? { sameAs: SITE.sameAs } : {}),
+  };
+
   return (
     <html lang="en">
       <body className="antialiased">
-        <Providers>
-          {children}
+        <Providers>{children}</Providers>
 
-          {/* 📍 Local Business Schema for SEO */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "Restaurant",
-                name: "Taqueria Charly’s",
-                servesCuisine: "Mexican",
-                priceRange: "$",
-                address: {
-                  "@type": "PostalAddress",
-                  addressLocality: "Santa Maria",
-                  addressRegion: "CA",
-                  addressCountry: "US",
-                },
-                sameAs: [
-                  "https://www.doordash.com/en/business/charly-taqueria-785131",
-                ],
-              }),
-            }}
-          />
-        </Providers>
+        {/* 📍 Local Business Schema for SEO (rendered outside client Providers for SSR stability) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema),
+          }}
+        />
       </body>
     </html>
   );

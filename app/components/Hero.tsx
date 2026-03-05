@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import { useLanguage } from "../context/LanguageContext";
+import { SITE } from "../lib/site";
 
 export default function Hero() {
-  const { lang, toggleLanguage } = useLanguage();
+  const { lang } = useLanguage();
 
   const copy = {
     en: {
@@ -15,7 +16,7 @@ export default function Hero() {
       menu: "View Menu",
       trust: "Slow-cooked daily • Local favorite • Pickup & delivery",
       location: "📍 Santa Maria, CA • Open Daily",
-      reassurance: "Order directly from us — quick & easy.",
+      reassurance: "Order directly from us — secure checkout & fast pickup.",
     },
     es: {
       headline: "Birria y Tacos al Estilo Callejero en Santa Maria",
@@ -31,31 +32,21 @@ export default function Hero() {
 
   const t = copy[lang];
 
-  // 🔁 Replace with your branded ordering link
-  const ORDER_URL = "https://order.taqueriacharlys.com";
+  const ORDER_HREF = SITE.orderPath;
+  const PHONE_TEL = SITE.phoneTel;
 
   return (
     <>
-      {/* Language Toggle */}
-      <div className="fixed right-4 top-4 z-50">
-        <button
-          onClick={toggleLanguage}
-          className="rounded-full border border-gray-300 bg-white px-4 py-1 text-sm font-medium text-gray-700 shadow-md transition hover:bg-gray-100"
-        >
-          {lang === "en" ? "ES" : "EN"}
-        </button>
-      </div>
-
       {/* Hero */}
-      <header className="bg-gradient-to-b from-[#F6FAF9] to-white pb-24 sm:pb-0">
+      <header className="bg-[#FFF8F1] pb-24 sm:pb-0">
         <div className="mx-auto max-w-5xl px-6 py-20 text-center">
           {/* Logo */}
           <div className="mb-8 flex justify-center">
             <Image
               src="/logo.png"
-              alt="Taqueria Charlys Logo"
-              width={160}
-              height={160}
+              alt="Taqueria Charly's goat mascot logo"
+              width={120}
+              height={120}
               priority
             />
           </div>
@@ -76,10 +67,17 @@ export default function Hero() {
           {/* CTAs */}
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <a
-              href={ORDER_URL}
-              className="inline-flex items-center justify-center rounded-full bg-[#EB1700] px-10 py-4 text-base font-semibold text-white shadow-md transition hover:bg-[#c91400]"
+              href={ORDER_HREF}
+              className="inline-flex items-center justify-center rounded-full bg-[#F47B20] px-10 py-4 text-base font-semibold text-white shadow-md transition hover:bg-[#D35A0F]"
             >
               {t.order}
+            </a>
+            <a
+              href={PHONE_TEL}
+              aria-label={`Call ${SITE.phoneDisplay}`}
+              className="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white px-10 py-4 text-base font-semibold text-gray-900 shadow-md transition hover:bg-gray-50"
+            >
+              {lang === "en" ? "Call" : "Llamar"} {SITE.phoneDisplay}
             </a>
 
             <a
@@ -93,16 +91,23 @@ export default function Hero() {
           {/* Reassurance */}
           <p className="mt-3 text-xs text-gray-500">{t.reassurance}</p>
 
+          {/* Delivery disclosure (helps set expectations for Drive courier fulfillment) */}
+          <p className="mt-2 text-xs text-gray-500">
+            {lang === "en"
+              ? "Delivery fulfilled by DoorDash Drive • Tracking & SMS updates available"
+              : "Entrega realizada por DoorDash Drive • Seguimiento y SMS disponibles"}
+          </p>
+
           {/* Trust */}
-          <p className="mt-4 text-xs text-gray-500">{t.trust}</p>
+          <p className="mt-4 text-xs text-gray-500">⭐ 4.7 on Google • {t.trust}</p>
         </div>
       </header>
 
       {/* Mobile Sticky CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-gray-200 bg-white p-4 sm:hidden">
         <a
-          href={ORDER_URL}
-          className="flex items-center justify-center rounded-full bg-[#EB1700] py-4 text-base font-semibold text-white shadow-lg"
+          href={ORDER_HREF}
+          className="flex items-center justify-center rounded-full bg-[#F47B20] py-4 text-base font-semibold text-white shadow-lg"
         >
           {t.order}
         </a>

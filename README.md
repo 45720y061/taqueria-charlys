@@ -2,6 +2,26 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### Configure ordering URL
+
+This site uses a stable on-domain ordering link (`/order`) that redirects to your external ordering provider.
+
+Set the destination with an environment variable:
+
+```bash
+NEXT_PUBLIC_ORDER_URL="https://order.online/business/taqueria-charly-15590343"
+```
+
+### DoorDash Drive readiness
+
+Compliance-friendly pages were added under your domain:
+
+- `/contact`
+- `/privacy`
+- `/terms`
+- `/refund-policy`
+- `/track?url=<delivery_tracking_url>` (safe redirect wrapper)
+
 First, run the development server:
 
 ```bash

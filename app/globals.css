@@ -1,13 +1,17 @@
+/* Temporary: keep Google Fonts import (better: migrate to next/font) */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind v4 entrypoint (replaces @tailwind base/components/utilities) */
+@import 'tailwindcss';
 
-html, body {
+/* Tailwind v4 does not auto-detect JS config files — load it explicitly if you keep one */
+@config '../tailwind.config.js';
+
+html,
+body {
   padding: 0;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
-  color: #1F2933;
+  color: #1f2933;
   background-color: #ffffff;
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "../context/LanguageContext";
+import { SITE } from "../lib/site";
 
 export default function Specials() {
   const { lang } = useLanguage();
@@ -48,8 +49,8 @@ export default function Specials() {
 
   const t = copy[lang];
 
-  // 🔁 Use the SAME branded ordering URL as Hero
-  const ORDER_URL = "https://order.taqueriacharlys.com";
+  const ORDER_HREF = SITE.orderPath;
+
 
   return (
     <section id="specials" className="bg-white py-16">
@@ -75,12 +76,11 @@ export default function Specials() {
         {/* Mid-page CTA */}
         <div className="mt-10 text-center">
           <a
-            href={ORDER_URL}
+            href={ORDER_HREF}
             className="inline-block rounded-full bg-[#EB1700] px-10 py-4 text-base font-semibold text-white shadow-md transition hover:bg-[#c91400]"
           >
             {t.cta}
           </a>
-
           <p className="mt-3 text-xs text-gray-500">{t.trust}</p>
         </div>
       </div>
