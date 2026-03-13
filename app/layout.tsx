@@ -37,8 +37,6 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <Providers>{children}</Providers>
-
-        {/* 📍 Local Business Schema for SEO (rendered outside client Providers for SSR stability) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
